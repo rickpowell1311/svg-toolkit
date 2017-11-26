@@ -10,7 +10,7 @@ namespace SvgToolkit.Tests.Effects
         [Fact]
         public void Blur_WithFiftyPercent_CanAddFilter()
         {
-            var originalSvg = "<svg width=\"100\" height=\"200}\"><rect width=\"90\" height=\"90\" fill=\"green\" /></svg>";
+            var originalSvg = "<svg width=\"100\" height=\"200\"><rect width=\"90\" height=\"90\" fill=\"green\" /></svg>";
             var svgElement = XElement.Parse(originalSvg);
             var svg = new Svg(svgElement);
 

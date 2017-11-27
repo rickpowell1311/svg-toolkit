@@ -1,4 +1,4 @@
-﻿using System;
+﻿using SvgToolkit.Manipulation.Effects.Utilities;
 using System.Xml.Linq;
 
 namespace SvgToolkit.Manipulation.Effects
@@ -14,28 +14,15 @@ namespace SvgToolkit.Manipulation.Effects
 
         public void Apply(Svg svg)
         {
-            var filterId = new SvgGuid(Guid.NewGuid());
-
-            var filterElement = new XElement("filter");
-            filterElement.SetAttributeValue("id", filterId);
+            var filterId = SvgGuid.NewGuid();
 
             var blur = new XElement("feGaussianBlur");
             blur.SetAttributeValue("in", "SourceGraphic");
             blur.SetAttributeValue("stdDeviation", percentage * 100);
 
-            filterElement.Add(blur);
-
-            var outerGroup = svg.GetRootElement().Element("g");
-            outerGroup.SetAttributeValue("filter", $"url(#{filterId})");
-
-            var newOuterGroup = new XElement("g");
-            newOuterGroup.Add(filterElement);
-            newOuterGroup.Add(outerGroup);
-
-            var root = svg.GetRootElement();
-            root.ReplaceNodes(newOuterGroup);
-
-            svg.OverrideXElement(root);
+            var filterGroup = new SvgFilterGroup();
+            filterGroup.SetFilter(blur);
+            filterGroup.AddToSvg(svg);
         }
     }
 }
